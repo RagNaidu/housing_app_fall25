@@ -1,0 +1,49 @@
+{
+  "run_id": "lgbm__pca_0__tune_0",
+  "timestamp": "2025-12-19T11:18:28.412512",
+  "f1": 0.9947534102833159,
+  "confusion_matrix": [
+    [
+      3042,
+      2
+    ],
+    [
+      8,
+      948
+    ]
+  ],
+  "report": {
+    "0": {
+      "precision": 0.9973770491803279,
+      "recall": 0.9993429697766097,
+      "f1-score": 0.9983590416803414,
+      "support": 3044.0
+    },
+    "1": {
+      "precision": 0.9978947368421053,
+      "recall": 0.9916317991631799,
+      "f1-score": 0.9947534102833159,
+      "support": 956.0
+    },
+    "accuracy": 0.9975,
+    "macro avg": {
+      "precision": 0.9976358930112166,
+      "recall": 0.9954873844698948,
+      "f1-score": 0.9965562259818286,
+      "support": 4000.0
+    },
+    "weighted avg": {
+      "precision": 0.9975007765314926,
+      "recall": 0.9975,
+      "f1-score": 0.9974972957764522,
+      "support": 4000.0
+    }
+  },
+  "meta": {
+    "model_name": "lgbm",
+    "use_pca": false,
+    "use_tuning": false,
+    "best_params": null
+  },
+  "model_path": "C:\\Users\\saira\\OneDrive\\Desktop\\RAG\\MASTER'S JOURNEY\\TARGET\\BUFFALO\\CLASSES\\503-PROGRAMMING\\END_SEMESTER_PROJECT\\housing_app_fall25\\models\\lgbm__pca_0__tune_0.pkl"
+}

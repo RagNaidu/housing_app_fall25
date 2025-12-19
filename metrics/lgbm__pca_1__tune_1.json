@@ -1,0 +1,57 @@
+{
+  "run_id": "lgbm__pca_1__tune_1",
+  "timestamp": "2025-12-19T11:19:29.616288",
+  "f1": 0.9952755905511812,
+  "confusion_matrix": [
+    [
+      3043,
+      1
+    ],
+    [
+      8,
+      948
+    ]
+  ],
+  "report": {
+    "0": {
+      "precision": 0.9973779088823337,
+      "recall": 0.9996714848883048,
+      "f1-score": 0.9985233798195242,
+      "support": 3044.0
+    },
+    "1": {
+      "precision": 0.9989462592202318,
+      "recall": 0.9916317991631799,
+      "f1-score": 0.9952755905511812,
+      "support": 956.0
+    },
+    "accuracy": 0.99775,
+    "macro avg": {
+      "precision": 0.9981620840512828,
+      "recall": 0.9956516420257424,
+      "f1-score": 0.9968994851853528,
+      "support": 4000.0
+    },
+    "weighted avg": {
+      "precision": 0.9977527446130914,
+      "recall": 0.99775,
+      "f1-score": 0.9977471581843903,
+      "support": 4000.0
+    }
+  },
+  "meta": {
+    "model_name": "lgbm",
+    "use_pca": true,
+    "use_tuning": true,
+    "best_params": {
+      "n_estimators": 958,
+      "learning_rate": 0.09888191159569412,
+      "num_leaves": 128,
+      "max_depth": 3,
+      "min_child_samples": 23,
+      "subsample": 0.7000117309603522,
+      "colsample_bytree": 0.6787777037118794
+    }
+  },
+  "model_path": "C:\\Users\\saira\\OneDrive\\Desktop\\RAG\\MASTER'S JOURNEY\\TARGET\\BUFFALO\\CLASSES\\503-PROGRAMMING\\END_SEMESTER_PROJECT\\housing_app_fall25\\models\\lgbm__pca_1__tune_1.pkl"
+}

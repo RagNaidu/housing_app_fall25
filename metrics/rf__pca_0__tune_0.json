@@ -1,0 +1,49 @@
+{
+  "run_id": "rf__pca_0__tune_0",
+  "timestamp": "2025-12-19T11:12:41.156180",
+  "f1": 0.9758149316508938,
+  "confusion_matrix": [
+    [
+      3026,
+      18
+    ],
+    [
+      28,
+      928
+    ]
+  ],
+  "report": {
+    "0": {
+      "precision": 0.9908316961362148,
+      "recall": 0.9940867279894875,
+      "f1-score": 0.9924565431288948,
+      "support": 3044.0
+    },
+    "1": {
+      "precision": 0.9809725158562368,
+      "recall": 0.9707112970711297,
+      "f1-score": 0.9758149316508938,
+      "support": 956.0
+    },
+    "accuracy": 0.9885,
+    "macro avg": {
+      "precision": 0.9859021059962259,
+      "recall": 0.9823990125303086,
+      "f1-score": 0.9841357373898942,
+      "support": 4000.0
+    },
+    "weighted avg": {
+      "precision": 0.9884753520493,
+      "recall": 0.9885,
+      "f1-score": 0.9884791979856525,
+      "support": 4000.0
+    }
+  },
+  "meta": {
+    "model_name": "rf",
+    "use_pca": false,
+    "use_tuning": false,
+    "best_params": null
+  },
+  "model_path": "C:\\Users\\saira\\OneDrive\\Desktop\\RAG\\MASTER'S JOURNEY\\TARGET\\BUFFALO\\CLASSES\\503-PROGRAMMING\\END_SEMESTER_PROJECT\\housing_app_fall25\\models\\rf__pca_0__tune_0.pkl"
+}

@@ -1,2 +1,14 @@
-.env
-.DS_Store
+# Python environment
+.venv/
+
+# Environment variables
+.env*
+
+# Raw data
+data/raw/
+
+# Databases
+*.sqlite3
+
+# Saved ML models (track only temporary deployment models if needed)
+models/*.pkl

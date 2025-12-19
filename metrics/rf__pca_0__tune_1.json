@@ -1,0 +1,54 @@
+{
+  "run_id": "rf__pca_0__tune_1",
+  "timestamp": "2025-12-19T11:14:23.565558",
+  "f1": 0.9775222164140094,
+  "confusion_matrix": [
+    [
+      3022,
+      22
+    ],
+    [
+      21,
+      935
+    ]
+  ],
+  "report": {
+    "0": {
+      "precision": 0.9930989155438712,
+      "recall": 0.992772667542707,
+      "f1-score": 0.9929357647445376,
+      "support": 3044.0
+    },
+    "1": {
+      "precision": 0.9770114942528736,
+      "recall": 0.9780334728033473,
+      "f1-score": 0.9775222164140094,
+      "support": 956.0
+    },
+    "accuracy": 0.98925,
+    "macro avg": {
+      "precision": 0.9850552048983724,
+      "recall": 0.9854030701730272,
+      "f1-score": 0.9852289905792735,
+      "support": 4000.0
+    },
+    "weighted avg": {
+      "precision": 0.9892540218553229,
+      "recall": 0.98925,
+      "f1-score": 0.9892519266935413,
+      "support": 4000.0
+    }
+  },
+  "meta": {
+    "model_name": "rf",
+    "use_pca": false,
+    "use_tuning": true,
+    "best_params": {
+      "n_estimators": 753,
+      "max_depth": 18,
+      "min_samples_split": 6,
+      "min_samples_leaf": 1
+    }
+  },
+  "model_path": "C:\\Users\\saira\\OneDrive\\Desktop\\RAG\\MASTER'S JOURNEY\\TARGET\\BUFFALO\\CLASSES\\503-PROGRAMMING\\END_SEMESTER_PROJECT\\housing_app_fall25\\models\\rf__pca_0__tune_1.pkl"
+}

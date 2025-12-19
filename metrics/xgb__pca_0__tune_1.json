@@ -1,0 +1,56 @@
+{
+  "run_id": "xgb__pca_0__tune_1",
+  "timestamp": "2025-12-19T11:17:35.328027",
+  "f1": 0.9952904238618524,
+  "confusion_matrix": [
+    [
+      3040,
+      4
+    ],
+    [
+      5,
+      951
+    ]
+  ],
+  "report": {
+    "0": {
+      "precision": 0.9983579638752053,
+      "recall": 0.9986859395532195,
+      "f1-score": 0.9985219247823945,
+      "support": 3044.0
+    },
+    "1": {
+      "precision": 0.9958115183246073,
+      "recall": 0.9947698744769874,
+      "f1-score": 0.9952904238618524,
+      "support": 956.0
+    },
+    "accuracy": 0.99775,
+    "macro avg": {
+      "precision": 0.9970847410999063,
+      "recall": 0.9967279070151034,
+      "f1-score": 0.9969061743221235,
+      "support": 4000.0
+    },
+    "weighted avg": {
+      "precision": 0.9977493633886124,
+      "recall": 0.99775,
+      "f1-score": 0.997749596062385,
+      "support": 4000.0
+    }
+  },
+  "meta": {
+    "model_name": "xgb",
+    "use_pca": false,
+    "use_tuning": true,
+    "best_params": {
+      "n_estimators": 396,
+      "learning_rate": 0.13600836623457238,
+      "max_depth": 3,
+      "subsample": 0.8309084643433596,
+      "colsample_bytree": 0.7725589829757292,
+      "reg_lambda": 0.05060141013427582
+    }
+  },
+  "model_path": "C:\\Users\\saira\\OneDrive\\Desktop\\RAG\\MASTER'S JOURNEY\\TARGET\\BUFFALO\\CLASSES\\503-PROGRAMMING\\END_SEMESTER_PROJECT\\housing_app_fall25\\models\\xgb__pca_0__tune_1.pkl"
+}

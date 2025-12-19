@@ -1,0 +1,52 @@
+{
+  "run_id": "logreg__pca_1__tune_1",
+  "timestamp": "2025-12-19T11:12:38.170226",
+  "f1": 0.991675338189386,
+  "confusion_matrix": [
+    [
+      3031,
+      13
+    ],
+    [
+      3,
+      953
+    ]
+  ],
+  "report": {
+    "0": {
+      "precision": 0.9990112063282794,
+      "recall": 0.9957293035479632,
+      "f1-score": 0.9973675551168146,
+      "support": 3044.0
+    },
+    "1": {
+      "precision": 0.9865424430641822,
+      "recall": 0.9968619246861925,
+      "f1-score": 0.991675338189386,
+      "support": 956.0
+    },
+    "accuracy": 0.996,
+    "macro avg": {
+      "precision": 0.9927768246962307,
+      "recall": 0.9962956141170778,
+      "f1-score": 0.9945214466531003,
+      "support": 4000.0
+    },
+    "weighted avg": {
+      "precision": 0.9960311719081603,
+      "recall": 0.996,
+      "f1-score": 0.9960071152711593,
+      "support": 4000.0
+    }
+  },
+  "meta": {
+    "model_name": "logreg",
+    "use_pca": true,
+    "use_tuning": true,
+    "best_params": {
+      "C": 3.1442523758903067,
+      "solver": "liblinear"
+    }
+  },
+  "model_path": "C:\\Users\\saira\\OneDrive\\Desktop\\RAG\\MASTER'S JOURNEY\\TARGET\\BUFFALO\\CLASSES\\503-PROGRAMMING\\END_SEMESTER_PROJECT\\housing_app_fall25\\models\\logreg__pca_1__tune_1.pkl"
+}

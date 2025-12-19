@@ -1,183 +1,117 @@
-# api/app.py
-"""
-FastAPI service for housing price prediction.
-Loads the trained model and exposes a /predict endpoint.
-"""
-
 from pathlib import Path
-from typing import Any, Dict, List
+import os
 
 import joblib
 import pandas as pd
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
-# Import shared pipeline components so unpickling works
-from housing_pipeline import (
-    ClusterSimilarity,
-    column_ratio,
-    ratio_name,
-    build_preprocessing,
-    make_estimator_for_name,
-)
+# -----------------------------
+# FastAPI app
+# -----------------------------
+app = FastAPI(title="Loan Approval Prediction API")
 
-# -----------------------------------------------------------------------------
-# Configuration
-# -----------------------------------------------------------------------------
-MODEL_PATH = Path("/app/models/global_best_model_optuna.pkl")
+# -----------------------------
+# Model path
+# -----------------------------
+MODEL_PATH = Path(os.getenv("MODEL_PATH", "/app/models/best_loan_model.pkl"))
 
-app = FastAPI(
-    title="Housing Price Prediction API",
-    description="FastAPI service for predicting California housing prices",
-    version="1.0.0",
-)
+model = None  # loaded on startup
 
 
-# -----------------------------------------------------------------------------
-# Load model at startup
-# -----------------------------------------------------------------------------
-def load_model(path: Path):
-    """Load the trained model from disk."""
-    if not path.exists():
-        raise FileNotFoundError(f"Model file not found: {path}")
+@app.on_event("startup")
+def load_model():
+    global model
+    if not MODEL_PATH.exists():
+        model = None
+        print(f"❌ Model file not found at: {MODEL_PATH}")
+        return
 
-    print(f"Loading model from: {path}")
-    m = joblib.load(path)
-    print("✓ Model loaded successfully!")
-    print(f"  Model type: {type(m).__name__}")
-    if hasattr(m, "named_steps"):
-        print(f"  Pipeline steps: {list(m.named_steps.keys())}")
-    return m
+    model = joblib.load(MODEL_PATH)
+    print(f"✅ Model loaded from: {MODEL_PATH}")
 
 
-try:
-    model = load_model(MODEL_PATH)
-except Exception as e:
-    print(f"✗ ERROR: Failed to load model from {MODEL_PATH}")
-    print(f"  Error: {e}")
-    raise RuntimeError(f"Failed to load model: {e}")
+# -----------------------------
+# Input schema (must match X columns)
+# -----------------------------
+class LoanInput(BaseModel):
+    age: int
+    annual_income: float
+    credit_score: int
+    experience: int
+    loan_amount: float
+    loan_duration: int
+    number_of_dependents: int
+    monthly_debt_payments: float
+    credit_card_utilization_rate: float
+    number_of_open_credit_lines: int
+    number_of_credit_inquiries: int
+    debt_to_income_ratio: float
+    bankruptcy_history: int
+    previous_loan_defaults: int
+    payment_history: int
+    length_of_credit_history: int
+    savings_account_balance: float
+    checking_account_balance: float
+    total_assets: float
+    total_liabilities: float
+    monthly_income: float
+    utility_bills_payment_history: float
+    job_tenure: int
+    net_worth: float
+    base_interest_rate: float
+    interest_rate: float
+    monthly_loan_payment: float
+    total_debt_to_income_ratio: float
+    risk_score: float
+
+    # categorical
+    employment_status: str
+    education_level: str
+    marital_status: str
+    home_ownership_status: str
+    loan_purpose: str
 
 
-# -----------------------------------------------------------------------------
-# Request / Response Schemas
-# -----------------------------------------------------------------------------
-class PredictRequest(BaseModel):
-    """
-    Prediction request with list of instances (dicts of features).
-    """
-    instances: List[Dict[str, Any]]
-
-    class Config:
-        schema_extra = {
-            "example": {
-                "instances": [
-                    {
-                        "longitude": -122.23,
-                        "latitude": 37.88,
-                        "housing_median_age": 41.0,
-                        "total_rooms": 880.0,
-                        "total_bedrooms": 129.0,
-                        "population": 322.0,
-                        "households": 126.0,
-                        "median_income": 8.3252,
-                        "ocean_proximity": "NEAR BAY",
-                    }
-                ]
-            }
-        }
-
-
-class PredictResponse(BaseModel):
-    predictions: List[float]
-    count: int
-
-    class Config:
-        schema_extra = {
-            "example": {
-                "predictions": [452600.0],
-                "count": 1,
-            }
-        }
-
-
-# -----------------------------------------------------------------------------
-# Routes
-# -----------------------------------------------------------------------------
-@app.get("/")
-def root():
-    return {
-        "name": "Housing Price Prediction API",
-        "version": "1.0.0",
-        "endpoints": {
-            "health": "/health",
-            "predict": "/predict",
-            "docs": "/docs",
-        },
-    }
-
-
+# -----------------------------
+# Health check
+# -----------------------------
 @app.get("/health")
-def health() -> Dict[str, str]:
+def health():
     return {
-        "status": "healthy",
-        "model_loaded": str(model is not None),
+        "status": "ok",
+        "model_loaded": model is not None,
         "model_path": str(MODEL_PATH),
     }
 
 
-@app.post("/predict", response_model=PredictResponse)
-def predict(request: PredictRequest):
-    if not request.instances:
-        raise HTTPException(
-            status_code=400,
-            detail="No instances provided. Please provide at least one instance.",
-        )
-
-    try:
-        X = pd.DataFrame(request.instances)
-    except Exception as e:
-        raise HTTPException(
-            status_code=400,
-            detail=f"Invalid input format. Could not convert to DataFrame: {e}",
-        )
-
-    required_columns = [
-        "longitude",
-        "latitude",
-        "housing_median_age",
-        "total_rooms",
-        "total_bedrooms",
-        "population",
-        "households",
-        "median_income",
-        "ocean_proximity",
-    ]
-    missing = set(required_columns) - set(X.columns)
-    if missing:
-        raise HTTPException(
-            status_code=400,
-            detail=f"Missing required columns: {sorted(missing)}",
-        )
-
-    try:
-        preds = model.predict(X)
-    except Exception as e:
+# -----------------------------
+# Prediction endpoint
+# -----------------------------
+@app.post("/predict")
+def predict(payload: LoanInput):
+    if model is None:
         raise HTTPException(
             status_code=500,
-            detail=f"Model prediction failed: {e}",
+            detail=f"Model not loaded. Expected model at {MODEL_PATH}.",
         )
 
-    preds_list = [float(p) for p in preds]
+    # Convert input to DataFrame
+    X = pd.DataFrame([payload.model_dump()])
 
-    return PredictResponse(predictions=preds_list, count=len(preds_list))
+    try:
+        pred = int(model.predict(X)[0])
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Prediction failed: {e}")
 
+    proba = None
+    if hasattr(model, "predict_proba"):
+        try:
+            proba = float(model.predict_proba(X)[0][1])
+        except Exception:
+            proba = None
 
-@app.on_event("startup")
-async def startup_event():
-    print("\n" + "=" * 80)
-    print("Housing Price Prediction API - Starting Up")
-    print("=" * 80)
-    print(f"Model path: {MODEL_PATH}")
-    print(f"Model loaded: {model is not None}")
-    print("API is ready to accept requests!")
-    print("=" * 80 + "\n")
+    return {
+        "loan_approved": pred,
+        "approval_probability": proba,
+    }

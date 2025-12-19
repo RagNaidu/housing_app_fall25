@@ -1,0 +1,7 @@
+{
+  "run_id": "logreg__pca_0__tune_0",
+  "model": "logreg",
+  "use_pca": false,
+  "use_tuning": false,
+  "f1": 0.9968717413972888
+}
